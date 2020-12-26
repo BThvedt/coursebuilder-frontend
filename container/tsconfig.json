@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules" : true,
+    "esModuleInterop" : true,
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "~/*": ["src/*"],
+    },
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+  },
+  "include": ["./src/**/*"]
+}
