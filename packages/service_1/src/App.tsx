@@ -7,7 +7,7 @@ import Page2 from "./pages/page2";
 export default () => {
   return (
     <div>
-      <h1>Service One</h1>
+      <h1>Service 1!!</h1>
       <BrowserRouter>
         <Switch>
           <Route exact path="/page2" component={Page2} />
