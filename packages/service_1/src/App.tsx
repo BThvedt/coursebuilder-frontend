@@ -1,19 +1,26 @@
-import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
-
+import React, { FC } from "react";
+import { Switch, Route, Router } from "react-router-dom";
+// import { RouteComponentProps } from "react-router-dom";
+import { History } from "history";
 import Page1 from "./pages/page1";
 import Page2 from "./pages/page2";
 
-export default () => {
+interface IProps {
+  history: History;
+}
+
+const App: FC<IProps> = ({ history }) => {
   return (
     <div>
       <h1>Service 1!</h1>
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
           <Route exact path="/page2" component={Page2} />
           <Route exact path="/" component={Page1} />
         </Switch>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 };
+
+export default App;

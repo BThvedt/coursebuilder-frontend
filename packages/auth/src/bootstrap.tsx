@@ -8,6 +8,7 @@ interface IOptions {
   onNavigate?: LocationListener<unknown>; // callback for naviagation
   defaultHistory?: History<unknown>;
   initialPath?: string;
+  onSignIn?: () => void;
 }
 
 interface IReturn {
@@ -17,7 +18,7 @@ interface IReturn {
 // Mount function to start up the app
 const mount = (
   el: Element,
-  { onNavigate, defaultHistory, initialPath }: IOptions = {}
+  { onNavigate, defaultHistory, initialPath, onSignIn }: IOptions = {}
 ): IReturn => {
   const history: History<unknown> | MemoryHistory<unknown> =
     defaultHistory ||
@@ -29,7 +30,7 @@ const mount = (
     history.listen(onNavigate);
   }
 
-  ReactDOM.render(<App history={history} />, el);
+  ReactDOM.render(<App history={history} onSignIn={onSignIn} />, el);
 
   return {
     onParentNavigate({ pathname: nextPathname }) {
@@ -45,7 +46,7 @@ const mount = (
 // If we are in development and in isolation,
 // call mount immdeiatley
 if (process.env.NODE_ENV === "development") {
-  const devRoot = document.querySelector("#_service_1-root");
+  const devRoot = document.querySelector("#_auth-dev-root");
 
   if (devRoot) {
     mount(devRoot, { defaultHistory: createBrowserHistory() });
