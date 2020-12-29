@@ -12,7 +12,7 @@ interface IMountReturnObject {
   onParentNavigate?: LocationListener<unknown>;
 }
 
-const Service1App: React.FC<IProps> = ({ onSignIn }) => {
+const Service2App: React.FC<IProps> = ({ onSignIn }) => {
   const ref = useRef(null);
   const history = useHistory();
 
@@ -34,4 +34,4 @@ const Service1App: React.FC<IProps> = ({ onSignIn }) => {
   return <div ref={ref} />;
 };
 
-export default Service1App;
+export default Service2App;
