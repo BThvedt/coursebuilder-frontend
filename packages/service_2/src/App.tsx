@@ -12,7 +12,7 @@ interface IProps {
 const App: FC<IProps> = ({ history }) => {
   return (
     <div>
-      <h1>Service 2!!</h1>
+      <h1>Service 2!</h1>
       <Router history={history}>
         <Switch>
           <Route exact path="/service_2/page2" component={Page2} />
