@@ -9,7 +9,12 @@ interface IProps {
 const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
   return (
     <div>
-      <Link to="/">App</Link>
+      <Link to="/">App</Link>{" "}
+      {isSignedIn && (
+        <>
+          <Link to="/service_2/page1">Service 2</Link>{" "}
+        </>
+      )}
       {isSignedIn ? (
         <button onClick={() => setIsSignedIn(false)}>Logout</button>
       ) : (
