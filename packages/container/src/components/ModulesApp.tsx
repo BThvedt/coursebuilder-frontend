@@ -1,5 +1,5 @@
 // @ts-ignore
-import { mount } from "auth/AuthApp"
+import { mount } from "modules/ModulesApp"
 import React, { useRef, useEffect } from "react"
 import { Location, LocationListener } from "history"
 import { useHistory } from "react-router-dom"
@@ -10,15 +10,11 @@ interface IProps {
 
 interface IMountReturnObject {
   onParentNavigate?: LocationListener<unknown>
-  onSignIn?: string
 }
 
-const AuthApp: React.FC<IProps> = ({ onSignIn }) => {
+const Service2App: React.FC<IProps> = ({ onSignIn }) => {
   const ref = useRef(null)
   const history = useHistory()
-
-  // console.log("Sign IN type IS");
-  // console.log(typeof onSignIn);
 
   useEffect(() => {
     const { onParentNavigate }: IMountReturnObject = mount(ref.current, {
@@ -29,8 +25,7 @@ const AuthApp: React.FC<IProps> = ({ onSignIn }) => {
         if (pathname !== nextPathName) {
           history.push(nextPathName)
         }
-      },
-      onSignIn
+      }
     })
 
     history.listen(onParentNavigate)
@@ -39,4 +34,4 @@ const AuthApp: React.FC<IProps> = ({ onSignIn }) => {
   return <div ref={ref} />
 }
 
-export default AuthApp
+export default Service2App

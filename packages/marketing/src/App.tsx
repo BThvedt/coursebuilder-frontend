@@ -1,18 +1,18 @@
-import React, { FC } from "react";
-import { Switch, Route, Router } from "react-router-dom";
+import React, { FC } from "react"
+import { Switch, Route, Router } from "react-router-dom"
 // import { RouteComponentProps } from "react-router-dom";
-import { History } from "history";
-import Page1 from "./pages/page1";
-import Page2 from "./pages/page2";
+import { History } from "history"
+import Page1 from "./pages/page1"
+import Page2 from "./pages/page2"
 
 interface IProps {
-  history: History;
+  history: History
 }
 
 const App: FC<IProps> = ({ history }) => {
   return (
     <div>
-      <h1>Service 1!</h1>
+      <h1>Front Page!</h1>
       <Router history={history}>
         <Switch>
           <Route exact path="/page2" component={Page2} />
@@ -20,7 +20,7 @@ const App: FC<IProps> = ({ history }) => {
         </Switch>
       </Router>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

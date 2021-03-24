@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import React, { FC } from "react"
+import { Link } from "react-router-dom"
 
 interface IProps {
-  isSignedIn: boolean;
-  setIsSignedIn: (signedInState: boolean) => void;
+  isSignedIn: boolean
+  setIsSignedIn: (signedInState: boolean) => void
 }
 
 const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
@@ -12,7 +12,7 @@ const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
       <Link to="/">App</Link>{" "}
       {isSignedIn && (
         <>
-          <Link to="/service_2/page1">Service 2</Link>{" "}
+          <Link to="/modules/page1">Modules</Link>{" "}
         </>
       )}
       {isSignedIn ? (
@@ -21,7 +21,7 @@ const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
         <Link to="/auth/signin">Login</Link>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
