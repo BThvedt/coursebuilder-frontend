@@ -57,8 +57,8 @@ const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
   const classes = useStyles()
   const location = useLocation()
 
-  console.log("Location is")
-  console.log(location)
+  // console.log("Location is")
+  // console.log(location)
 
   return (
     // <div>
