@@ -3,6 +3,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const commonConfig = require("./webpack.common")
 const packageJson = require("../package.json")
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
+const modulesThatArentShared = []
+
+const sharedModules = Object.keys(packageJson.dependencies)
+  .filter((key) => !modulesThatArentShared.includes(key))
+  .reduce((obj, key) => {
+    obj[key] = packageJson.dependencies[key]
+    return obj
+  }, {})
+
+console.log(sharedModules)
 
 const devConfig = {
   mode: "development",

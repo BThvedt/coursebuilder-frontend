@@ -6,6 +6,13 @@ import {
   Redirect,
   Router
 } from "react-router-dom"
+import {
+  StylesProvider,
+  ThemeProvider,
+  createGenerateClassName
+} from "@material-ui/core/styles"
+import theme from "./Theme"
+import Progress from "./components/Progress"
 // import AuthApp from "./components/AuthApp";
 // import Service1App from "./components/Service1App";
 import Header from "./components/Header"
@@ -30,25 +37,41 @@ export default () => {
     setIsSignedIn(true)
   }
 
+  const generateClassName = createGenerateClassName({
+    productionPrefix: "cont"
+  })
+
   return (
-    <Router history={history}>
-      <div>
-        <Header isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
-        <Suspense fallback={<div>Loading..</div>}>
-          <Switch>
-            <Route path="/auth">
-              <AuthLazy onSignIn={onSignIn} />
-            </Route>
-            <Route path="/modules">
-              {!isSignedIn && <Redirect to="/" />}
-              <ModulesApp onSignIn={onSignIn} />
-            </Route>
-            <Route path="/">
-              <MarketingLazy />
-            </Route>
-          </Switch>
-        </Suspense>
-      </div>
-    </Router>
+    <StylesProvider generateClassName={generateClassName}>
+      <ThemeProvider theme={theme}>
+        <Router history={history}>
+          <div>
+            <Header isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
+            <Suspense fallback={<Progress />}>
+              {/* <Suspense
+              fallback={
+                <h1>
+                  sfdhjaweksldfhakjwhefaklwerjhaklwejha;wlejjrfkwasdjflasdfhjawsefui9'paos;dlnjkdsfcvh;poasfjlaweiofuja';spdkvmjnasedoifjsl;
+                  <Progress />
+                </h1>
+              }
+            > */}
+              <Switch>
+                <Route path="/auth">
+                  <AuthLazy onSignIn={onSignIn} />
+                </Route>
+                <Route path="/modules">
+                  {!isSignedIn && <Redirect to="/" />}
+                  <ModulesApp onSignIn={onSignIn} />
+                </Route>
+                <Route path="/">
+                  <MarketingLazy />
+                </Route>
+              </Switch>
+            </Suspense>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </StylesProvider>
   )
 }

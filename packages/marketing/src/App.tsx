@@ -2,8 +2,22 @@ import React, { FC } from "react"
 import { Switch, Route, Router } from "react-router-dom"
 // import { RouteComponentProps } from "react-router-dom";
 import { History } from "history"
-import Page1 from "./pages/page1"
-import Page2 from "./pages/page2"
+import FrontPage from "./pages/frontPage/FrontPage"
+import UnderConstruction from "./pages/UnderConstruction"
+import { Container, Typography, Button, Grid } from "@material-ui/core"
+import "../marketing.scss"
+import {
+  ThemeProvider,
+  createGenerateClassName
+} from "@material-ui/core/styles"
+import { StylesProvider } from "@material-ui/core"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
+import theme from "./Theme"
+import AnimatedRoutesAttempt from "./AnimatedRoutesAttempt"
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: "ma"
+})
 
 interface IProps {
   history: History
@@ -11,15 +25,21 @@ interface IProps {
 
 const App: FC<IProps> = ({ history }) => {
   return (
-    <div>
-      <h1>Front Page!</h1>
-      <Router history={history}>
-        <Switch>
-          <Route exact path="/page2" component={Page2} />
-          <Route exact path="/" component={Page1} />
-        </Switch>
-      </Router>
-    </div>
+    <StylesProvider generateClassName={generateClassName} injectFirst>
+      <ThemeProvider theme={theme}>
+        <Router history={history}>
+          {/* <Switch>
+          <Route
+            exact
+            path="/underConstruction"
+            component={UnderConstruction}
+          />
+          <Route exact path="/" component={FrontPage} />
+        </Switch> */}
+          <AnimatedRoutesAttempt />
+        </Router>
+      </ThemeProvider>
+    </StylesProvider>
   )
 }
 
