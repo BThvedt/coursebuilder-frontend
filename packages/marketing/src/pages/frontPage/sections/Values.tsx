@@ -132,7 +132,7 @@ const Values: FC<Props> = ({ scrollRef }) => {
                 A single place where multiple parties can view, review, edit,
                 and develop so everyone is always on the same page. We
                 streamline working with multiple parties and prevent unnecessary
-                development complecations.
+                development complications.
               </Typography>
             </div>
           </Grid>
@@ -174,8 +174,8 @@ const Values: FC<Props> = ({ scrollRef }) => {
               <Typography variant="h6" className={classes.lightFontWeight}>
                 Responsive? Stylable? Templateable? Translatable? Yep. All done
                 using components with such fluid and flexible power that your
-                clients might start thinking you hired your own JavaScript
-                developer.
+                clients might start thinking you hired your own personal
+                developers!
               </Typography>
             </div>
           </Grid>
@@ -213,7 +213,7 @@ const Values: FC<Props> = ({ scrollRef }) => {
                 <Lottie animationData={chainAnim} />
               </div>
               <Typography variant="h6" className={classes.title}>
-                No more Chains
+                Unleash your Designs!
               </Typography>
               <Typography variant="h6" className={classes.lightFontWeight}>
                 Let tech work for you instead of constrain you. Besides great
