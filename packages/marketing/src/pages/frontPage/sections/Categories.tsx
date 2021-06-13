@@ -214,6 +214,9 @@ const ProductCategories: FC = () => {
 
   const [hoveredArray, setHoveredArray] = useState(defaultHoveredArray)
 
+  // console.log("HISTORY IS")
+  // console.log(history)
+
   return (
     <Container className={classes.root} component="section">
       <div className={classes.images}>
@@ -225,6 +228,7 @@ const ProductCategories: FC = () => {
               width: image.width
             }}
             onClick={() => {
+              console.log("IVE BEEN CLICKED")
               history.push("/underConstruction")
             }}
             onMouseEnter={() => {

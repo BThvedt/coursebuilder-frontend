@@ -5,11 +5,7 @@ import { History } from "history"
 import FrontPage from "./pages/frontPage/FrontPage"
 import UnderConstruction from "./pages/UnderConstruction"
 import "../marketing.scss"
-import {
-  CSSTransition,
-  TransitionGroup,
-  ReactCSSTransitionGroup
-} from "react-transition-group"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 
 interface IProps {
   // history: History
@@ -25,22 +21,22 @@ const AnimatedRouteAttempt: FC<IProps> = () => {
         return (
           <TransitionGroup>
             <CSSTransition key={location.key} timeout={300} classNames="fade">
-              <div id="asdfasdfasdfsaf">
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Switch location={location}>
-                    <Route exact path="/underConstruction">
-                      <div className="page-wrapper">
-                        <UnderConstruction />
-                      </div>
-                    </Route>
-                    <Route exact path="/">
-                      <div className="page-wrapper">
-                        <FrontPage />
-                      </div>
-                    </Route>
-                  </Switch>
-                </Suspense>
-              </div>
+              {/* <div id="asdfasdfasdfsaf"> */}
+              <Suspense fallback={<div>Loading...</div>}>
+                <Switch location={location}>
+                  <Route path="/underConstruction">
+                    <div className="page-wrapper">
+                      <UnderConstruction />
+                    </div>
+                  </Route>
+                  <Route exact path="/">
+                    <div className="page-wrapper">
+                      <FrontPage />
+                    </div>
+                  </Route>
+                </Switch>
+              </Suspense>
+              {/* </div> */}
             </CSSTransition>
           </TransitionGroup>
         )

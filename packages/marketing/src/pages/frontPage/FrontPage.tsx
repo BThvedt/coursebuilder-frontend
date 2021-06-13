@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import { Container, Typography, Button, Grid } from "@material-ui/core"
 // import HeroImg from "../../assets/images/HeroBackgroundSmall.jpg"
 import LargeLogo from "../../assets/images/MakeAModule Logo Large Blue.png"
+import thing from "../../assets/images/MakeAModule_Logo_Lg_Blue.png"
 import Sunrise from "../../assets/lottie/sunrise.json"
 import { AppBar, Toolbar, Link as MuiLink } from "@material-ui/core"
 import clsx from "clsx"
@@ -16,10 +17,26 @@ import Lottie, { useLottie } from "lottie-react"
 import Footer from "./sections/Footer"
 import BackgroundDots from "../../assets/lottie/21317-wave-loop.json"
 import footerWave from "../../assets/lottie/footer-wave.json"
+import {
+  useQuery,
+  useMutation,
+  useApolloClient,
+  useLazyQuery
+} from "@apollo/client"
+import { TEST } from "../../grqphql/queries"
+import { connectAdvanced } from "react-redux"
 
 const useStyles = makeStyles(
   (theme) => {
     return {
+      frontPage: {
+        [theme.breakpoints.up("sm")]: {
+          paddingTop: "2em"
+        },
+        [theme.breakpoints.down("xs")]: {
+          paddingTop: "2em"
+        }
+      },
       largeLogo: {
         width: 500,
         position: "relative",
@@ -197,7 +214,7 @@ const FrontPage: FC = () => {
   const demos = useRef(null)
 
   return (
-    <div className="page">
+    <div className={`page ${classes.frontPage}`}>
       {/* <div className={classes.dots}>
         <Lottie animationData={BackgroundDots} />
       </div> */}

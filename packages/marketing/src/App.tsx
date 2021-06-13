@@ -14,9 +14,12 @@ import { StylesProvider } from "@material-ui/core"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import theme from "./Theme"
 import AnimatedRoutesAttempt from "./AnimatedRoutesAttempt"
+import { client } from "./grqphql/client"
+import { ApolloProvider } from "@apollo/client"
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: "ma"
+  //productionPrefix: "ma",
+  seed: "ma"
 })
 
 interface IProps {
@@ -25,21 +28,15 @@ interface IProps {
 
 const App: FC<IProps> = ({ history }) => {
   return (
-    <StylesProvider generateClassName={generateClassName} injectFirst>
-      <ThemeProvider theme={theme}>
-        <Router history={history}>
-          {/* <Switch>
-          <Route
-            exact
-            path="/underConstruction"
-            component={UnderConstruction}
-          />
-          <Route exact path="/" component={FrontPage} />
-        </Switch> */}
-          <AnimatedRoutesAttempt />
-        </Router>
-      </ThemeProvider>
-    </StylesProvider>
+    <ApolloProvider client={client}>
+      <StylesProvider generateClassName={generateClassName} injectFirst>
+        <ThemeProvider theme={theme}>
+          <Router history={history}>
+            <AnimatedRoutesAttempt />
+          </Router>
+        </ThemeProvider>
+      </StylesProvider>
+    </ApolloProvider>
   )
 }
 

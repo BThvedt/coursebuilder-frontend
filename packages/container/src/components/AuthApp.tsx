@@ -3,9 +3,10 @@ import { mount } from "auth/AuthApp"
 import React, { useRef, useEffect } from "react"
 import { Location, LocationListener } from "history"
 import { useHistory } from "react-router-dom"
+import { USER } from "@makeamodule/shared-frontend"
 
 interface IProps {
-  onSignIn?: () => void
+  onSignIn: (userData: USER) => void
 }
 
 interface IMountReturnObject {
@@ -16,9 +17,6 @@ interface IMountReturnObject {
 const AuthApp: React.FC<IProps> = ({ onSignIn }) => {
   const ref = useRef(null)
   const history = useHistory()
-
-  // console.log("Sign IN type IS");
-  // console.log(typeof onSignIn);
 
   useEffect(() => {
     const { onParentNavigate }: IMountReturnObject = mount(ref.current, {

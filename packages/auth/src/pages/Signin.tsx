@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Link } from "react-router-dom"
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -14,12 +14,18 @@ import {
   Typography,
   Container
 } from "@material-ui/core"
+import { ME, LOGOUT, LoginError, USER } from "@makeamodule/shared-frontend"
+import { LOGIN } from "./loginGQL"
+import {
+  useQuery,
+  useMutation,
+  useApolloClient,
+  useLazyQuery
+} from "@apollo/client"
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined" // builder might just use fonteaweome - don't want to couple with css framework after all
 
-// console.log('TODO - Font awesome')
-
 interface IProps {
-  onSignIn: () => void
+  onSignIn: (userData: USER) => void
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -57,32 +63,43 @@ function Copyright() {
 }
 
 const Signin: FC<IProps> = ({ onSignIn }) => {
-  // console.log("IN Signin and type of onSign IN is")
-  // console.log(typeof onSignIn)
-
+  const [loginErrors, setLoginErrors] = useState<LoginError[]>([])
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   const classes = useStyles()
+
+  // ok, actually I want to get the user here, and then set onsignin in the parent
+  const [login, { data: loginData }] = useMutation(LOGIN, {
+    async onCompleted(loginData) {
+      const { login: result } = loginData
+
+      setLoginErrors([])
+
+      // The logic of whether it's a token or a cookie happen in "Container"
+      // console.log("RESULT IS sdfgsdfgsdgfsdfgsdfgsdf")
+      // console.log(result)
+
+      onSignIn(result)
+    },
+    onError(err) {
+      let returnedErrors = err.graphQLErrors as any
+      let loginErrors: LoginError[] = []
+
+      returnedErrors.forEach((err: LoginError, i: number) => {
+        let { status, message, reasons } = err
+        loginErrors.push({
+          status,
+          message,
+          reasons
+        })
+      })
+
+      setLoginErrors(loginErrors)
+    }
+  })
 
   return (
     <>
-      {/* <h2>Signin</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          onSignIn()
-        }}
-      >
-        <p>
-          <label htmlFor="username">Email</label>
-          <input name="username" id="username" />
-        </p>
-        <p>
-          <label htmlFor="password">Password</label>
-          <input name="password" id="password" type="password" />
-        </p>
-        <button>Signin</button>
-      </form>
-      <Link to="/auth/signup">SignUp</Link> */}
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -92,7 +109,28 @@ const Signin: FC<IProps> = ({ onSignIn }) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault()
+              //onSignIn()
+              login({ variables: { data: { email, password } } })
+            }}
+          >
+            {loginErrors.length
+              ? loginErrors.map((error, i) => {
+                  return (
+                    <p key={i}>
+                      {error.status} {error.message}
+                      <br />{" "}
+                      {error?.reasons?.map((reason, i) => (
+                        <span key={i}>{reason.description}</span>
+                      ))}
+                    </p>
+                  )
+                })
+              : null}
             <TextField
               variant="outlined"
               margin="normal"
@@ -102,6 +140,9 @@ const Signin: FC<IProps> = ({ onSignIn }) => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={(e) => {
+                setEmail(e.target.value)
+              }}
               autoFocus
             />
             <TextField
@@ -113,6 +154,9 @@ const Signin: FC<IProps> = ({ onSignIn }) => {
               label="Password"
               type="password"
               id="password"
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
               autoComplete="current-password"
             />
             <FormControlLabel
@@ -129,16 +173,7 @@ const Signin: FC<IProps> = ({ onSignIn }) => {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                {/* <MaterialUiLink href="#" variant="body2">
-                  Forgot password?
-                </MaterialUiLink> */}
-              </Grid>
-              {/* <Grid item>
-                <MaterialUiLink href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </MaterialUiLink>
-              </Grid> */}
+              <Grid item xs></Grid>
             </Grid>
           </form>
         </div>

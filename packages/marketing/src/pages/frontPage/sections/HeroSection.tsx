@@ -2,8 +2,8 @@ import React, { FC } from "react"
 import PropTypes from "prop-types"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import HeroImg from "../../../assets/images/HeroBackgroundSmall.jpg"
-import ArrowDown from "../../../assets/images/productHeroArrowDownBlue.png"
+// import HeroImg from "../../../assets/images/HeroBackgroundSmall.jpg"
+// import ArrowDown from "../../../assets/images/productHeroArrowDownBlue.png"
 import WhiteSquareButton from "../../../components/WhiteSquareButton"
 import clsx from "clsx"
 
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   arrowDown: {
     position: "absolute",
-    bottom: theme.spacing(4)
+    bottom: theme.spacing(6)
     // right: "16px"
   },
   arrowDownImg: {

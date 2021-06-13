@@ -4,74 +4,172 @@ import {
   Route,
   Switch,
   Redirect,
-  Router
+  Router,
+  Link
 } from "react-router-dom"
 import {
   StylesProvider,
   ThemeProvider,
-  createGenerateClassName
+  createGenerateClassName,
+  jssPreset
 } from "@material-ui/core/styles"
+import { create } from "jss"
 import theme from "./Theme"
 import Progress from "./components/Progress"
-// import AuthApp from "./components/AuthApp";
-// import Service1App from "./components/Service1App";
 import Header from "./components/Header"
 import { createBrowserHistory } from "history"
+import AuthorizedSection from "./components/authorizedSection/AuthorizedSection"
+import {
+  AnonUser,
+  USER,
+  TokenPayload,
+  ME,
+  LOGOUT
+} from "@makeamodule/shared-frontend"
+import {
+  useQuery,
+  useMutation,
+  useApolloClient,
+  useLazyQuery
+} from "@apollo/client"
+import "../container.scss"
+
+const defaultUserData = {
+  me: AnonUser
+}
 
 const MarketingLazy = lazy(() => import("./components/MarketingApp"))
-const ModulesApp = lazy(() => import("./components/ModulesApp"))
+const ModulesLazy = lazy(
+  () => import("./components/authorizedSection/ModulesApp")
+)
 const AuthLazy = lazy(() => import("./components/AuthApp"))
+//const ModulesLazy = lazy(() => import("./ModulesApp"))
+const NewServiceLazy = lazy(
+  () => import("./components/authorizedSection/NewServiceApp")
+)
+// const NewServiceLazy = lazy(
+//   () => import("./components/authorizedSection/NewServiceApp")
+// )
 
 // an alternative is to use 'BrowserRouter' but then can't explicitly access the browser history in hte parent component,
 // so just use 'Router' componet and pass in the history as opposed to creating yet another higher level component just for the router provider or something similar
 const history = createBrowserHistory()
 
 export default () => {
+  const { loading, error, data: { me: user } = defaultUserData } = useQuery(ME)
+  const client = useApolloClient()
   const [isSignedIn, setIsSignedIn] = useState(false)
 
   useEffect(() => {
     // put logic to redirect on sign in here
   }, [isSignedIn])
 
-  const onSignIn = (): void => {
-    setIsSignedIn(true)
+  const onSignIn = (userData: USER | TokenPayload, token?: string): void => {
+    // we've logged in. Let's cache the data in the query
+
+    console.log("INSIDE ON SIGHIN")
+
+    let loggedInUser
+
+    if (process.env.AUTH_METHOD === "Token") {
+      localStorage.setItem("token", (userData as TokenPayload).token)
+      loggedInUser = (userData as TokenPayload).user
+    } else {
+      loggedInUser = userData
+    }
+
+    client.writeQuery({
+      query: ME,
+      data: {
+        me: loggedInUser as USER
+      }
+    })
   }
 
+  const [logout, { data }] = useMutation(LOGOUT, {
+    async onCompleted(data) {
+      const { logout: success } = data
+
+      if (success) {
+        client.writeQuery({
+          query: ME,
+          data: {
+            me: AnonUser
+          }
+        })
+      } else {
+        alert("there was an error logging out")
+      }
+    }
+  })
+
+  // status right now .. the logged in user is correct
+
   const generateClassName = createGenerateClassName({
-    productionPrefix: "cont"
+    productionPrefix: "cont",
+    seed: "cont"
   })
 
   return (
-    <StylesProvider generateClassName={generateClassName}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <StylesProvider generateClassName={generateClassName}>
         <Router history={history}>
-          <div>
-            <Header isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
+          <div id="i-dont-have-allweek-to-figure-out-why-material-ui-is-breaking">
+            {!loading && !user.id && (
+              <Header isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
+            )}
+            {/* {!loading && user.id && (
+              <div style={{ position: "relative", zIndex: 9999 }}>
+                <Link to="/modules/">Modules</Link>
+                <Link to="/new_service/">New Service</Link>{" "}
+                <Link to="/auth/signin">Auth</Link>{" "}
+                <Link to="/">Marketing</Link>{" "}
+              </div>
+            )} */}
             <Suspense fallback={<Progress />}>
-              {/* <Suspense
-              fallback={
-                <h1>
-                  sfdhjaweksldfhakjwhefaklwerjhaklwejha;wlejjrfkwasdjflasdfhjawsefui9'paos;dlnjkdsfcvh;poasfjlaweiofuja';spdkvmjnasedoifjsl;
-                  <Progress />
-                </h1>
-              }
-            > */}
               <Switch>
                 <Route path="/auth">
+                  {user.id && <Redirect to="/modules/" />}
                   <AuthLazy onSignIn={onSignIn} />
                 </Route>
-                <Route path="/modules">
-                  {!isSignedIn && <Redirect to="/" />}
-                  <ModulesApp onSignIn={onSignIn} />
-                </Route>
-                <Route path="/">
+                <Route
+                  exact
+                  path={["/", "/underConstruction"]}
+                  //path={["/", "/underConstruction"]}
+                  // render={({ location }) => {
+                  //   return ["/", "/underConstruction"].includes(
+                  //     location.pathname
+                  //   ) ? (
+                  //     <>
+                  //       {/* {!loading && user.id && <Redirect to="/modules/" />} */}
+                  //       <MarketingLazy />
+                  //     </>
+                  //   ) : null
+                  // }}
+                >
+                  {!loading && user.id && <Redirect to="/modules/" />}
                   <MarketingLazy />
                 </Route>
+                <Route path="/*">
+                  {!loading && !user.id && <Redirect to="/" />}
+                  <AuthorizedSection
+                    siteUser={user}
+                    logout={logout}
+                    history={history}
+                  />
+                </Route>
+                {/* <Route path={["/modules", "/module/*"]}>
+                  
+                  <ModulesLazy siteUser={user} />
+                </Route>
+                <Route path="/new_service">
+                  <NewServiceLazy siteUser={user} />
+                </Route> */}
               </Switch>
             </Suspense>
           </div>
         </Router>
-      </ThemeProvider>
-    </StylesProvider>
+      </StylesProvider>
+    </ThemeProvider>
   )
 }

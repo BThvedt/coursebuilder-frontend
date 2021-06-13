@@ -4,6 +4,7 @@ const commonConfig = require("./webpack.common")
 const packageJson = require("../package.json")
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
 const modulesThatArentShared = []
+const Dotenv = require("dotenv-webpack")
 
 const sharedModules = Object.keys(packageJson.dependencies)
   .filter((key) => !modulesThatArentShared.includes(key))
@@ -16,14 +17,13 @@ console.log(sharedModules)
 
 const devConfig = {
   mode: "development",
+  devtool: "eval-source-map",
   output: {
     publicPath: "http://localhost:8082/"
   },
   devServer: {
     port: 8082,
-    historyApiFallback: {
-      index: "index.html"
-    }
+    historyApiFallback: true
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -36,7 +36,8 @@ const devConfig = {
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
-    })
+    }),
+    new Dotenv()
   ]
 }
 

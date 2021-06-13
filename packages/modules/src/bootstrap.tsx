@@ -2,12 +2,17 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { createMemoryHistory, createBrowserHistory } from "history"
 import { History, MemoryHistory, LocationListener } from "history"
+import { USER } from "@makeamodule/shared-frontend"
 import App from "./App"
+
+import { ApolloProvider, useApolloClient, useQuery } from "@apollo/client"
+import { client } from "./grqphql/client"
 
 interface IOptions {
   onNavigate?: LocationListener<unknown> // callback for naviagation
   defaultHistory?: History<unknown>
   initialPath?: string
+  siteUser?: USER
 }
 
 interface IReturn {
@@ -17,7 +22,7 @@ interface IReturn {
 // Mount function to start up the app
 const mount = (
   el: Element,
-  { onNavigate, defaultHistory, initialPath }: IOptions = {}
+  { onNavigate, defaultHistory, initialPath, siteUser }: IOptions = {}
 ): IReturn => {
   const history: History<unknown> | MemoryHistory<unknown> =
     defaultHistory ||
@@ -29,7 +34,14 @@ const mount = (
     history.listen(onNavigate)
   }
 
-  ReactDOM.render(<App history={history} />, el)
+  ReactDOM.render(
+    <ApolloProvider client={client}>
+      <App siteUser={siteUser} history={history} />
+    </ApolloProvider>,
+    el
+  )
+
+  // ReactDOM.render(<App siteUser={siteUser} history={history} />, el)
 
   return {
     onParentNavigate({ pathname: nextPathname }) {

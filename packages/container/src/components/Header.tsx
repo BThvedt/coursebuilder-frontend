@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     color: theme.palette.common.white,
     marginLeft: theme.spacing(3),
-    fontWeight: 100
+    fontWeight: 300
   },
   leftLink: {}
 }))
@@ -57,26 +57,12 @@ const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
   const classes = useStyles()
   const location = useLocation()
 
-  // console.log("Location is")
-  // console.log(location)
-
   return (
-    // <div>
-    //   <Link to="/">App</Link>{" "}
-    //   {isSignedIn && (
-    //     <>
-    //       <Link to="/modules/page1">Modules</Link>{" "}
-    //     </>
-    //   )}
-    //   {isSignedIn ? (
-    //     <button onClick={() => setIsSignedIn(false)}>Logout</button>
-    //   ) : (
-    //     <Link to="/auth/signin">Login</Link>
-    //   )}
-    // </div>
     <Grid item className={classes.root}>
       <AppBar elevation={0} position="static">
-        <Toolbar className={classes.toolbar}>
+        <Toolbar
+          className={`header material-ui-is-being-weird ${classes.toolbar}`}
+        >
           <div className={classes.left} />
 
           <Typography color="inherit" variant="h6" className={classes.title}>
@@ -93,7 +79,10 @@ const Header: FC<IProps> = ({ isSignedIn, setIsSignedIn }) => {
               {isSignedIn || location.pathname === "/auth/signin" ? (
                 <></>
               ) : (
-                <Link to="/auth/signin" className={classes.link}>
+                <Link
+                  to="/auth/signin"
+                  className={`right-side-link ${classes.link}`}
+                >
                   {"Sign In"}
                 </Link>
               )}
