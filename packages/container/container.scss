@@ -1,0 +1,19 @@
+#i-dont-have-allweek-to-figure-out-why-material-ui-is-breaking {
+  .header.material-ui-is-being-weird {
+    font-weight: 300;
+    h6 {
+      font-weight: 300;
+      font-size: 24px;
+      position: relative;
+      right: 2%;
+    }
+    a.right-side-link {
+      font-size: 16px;
+      position: relative;
+      bottom: 3px;
+    }
+  }
+}
+body {
+  background: #fafafa;
+}
