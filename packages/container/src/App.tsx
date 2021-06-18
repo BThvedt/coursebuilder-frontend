@@ -33,6 +33,7 @@ import {
   useLazyQuery
 } from "@apollo/client"
 import "../container.scss"
+import { gql } from "@apollo/client"
 
 const defaultUserData = {
   me: AnonUser
@@ -56,27 +57,48 @@ const NewServiceLazy = lazy(
 const history = createBrowserHistory()
 
 export default () => {
-  const { loading, error, data: { me: user } = defaultUserData } = useQuery(ME)
+  const {
+    loading,
+    error,
+    data: { me: user } = defaultUserData
+  } = useQuery(gql`
+    query {
+      me {
+        id
+        name
+        email
+        orgRole
+      }
+    }
+  `)
   const client = useApolloClient()
   const [isSignedIn, setIsSignedIn] = useState(false)
 
-  useEffect(() => {
-    // put logic to redirect on sign in here
-  }, [isSignedIn])
+  // useEffect(() => {
+  //   // put logic to redirect on sign in here
+  //   console.log("user is")
+  //   console.log(user)
+  // }, [isSignedIn, user])
 
   const onSignIn = (userData: USER | TokenPayload, token?: string): void => {
     // we've logged in. Let's cache the data in the query
 
-    console.log("INSIDE ON SIGHIN")
-
     let loggedInUser
+
+    console.log("Now we are in the signin callback")
+    console.log(process.env.AUTH_METHOD === "Token")
 
     if (process.env.AUTH_METHOD === "Token") {
       localStorage.setItem("token", (userData as TokenPayload).token)
       loggedInUser = (userData as TokenPayload).user
     } else {
+      console.log("Setting the longged in user to:")
+      console.log(userData)
       loggedInUser = userData
     }
+
+    console.log("Time to write query")
+    console.log(loggedInUser)
 
     client.writeQuery({
       query: ME,
@@ -109,6 +131,15 @@ export default () => {
     productionPrefix: "cont",
     seed: "cont"
   })
+
+  if (loading) {
+    console.log("loading")
+  }
+
+  if (user) {
+    console.log("User is")
+    console.log(user)
+  }
 
   return (
     <ThemeProvider theme={theme}>

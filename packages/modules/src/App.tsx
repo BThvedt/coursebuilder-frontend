@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core/styles"
 import "./modules.scss"
 import { ModuleContext } from "./Context"
+import { ContactSupportOutlined } from "@material-ui/icons"
 
 interface IProps {
   history: History
@@ -40,6 +41,8 @@ const App: FC<IProps> = ({ history, siteUser }) => {
 
   useEffect(() => {
     if (siteUser) {
+      console.log("IN modules, useffect: site user exists")
+      console.log(siteUser)
       setUser(siteUser)
     } else {
       ;(async () => {
@@ -50,6 +53,9 @@ const App: FC<IProps> = ({ history, siteUser }) => {
             service: "auth"
           }
         })
+
+        console.log("IN modules, useffect: user is")
+        console.log(user)
         setUser(user)
       })()
     }
@@ -66,7 +72,10 @@ const App: FC<IProps> = ({ history, siteUser }) => {
             setUser
           }}
         >
-          <div onClick={incrementBodyClickCounter}>
+          <div
+            onClick={incrementBodyClickCounter}
+            style={{ width: "100%", marginTop: "1.5em" }}
+          >
             {!siteUser && <LocalLogin />} {/* if not in isolation .. */}
             <Router history={history}>
               {user && (

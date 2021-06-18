@@ -31,7 +31,6 @@ const httpLink = createHttpLink({
 let link
 
 if (process.env.AUTH_METHOD === "Token") {
-  console.log("AUTH METHOD IS TOKEN")
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     const token = localStorage.getItem("token")

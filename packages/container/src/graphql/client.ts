@@ -62,6 +62,8 @@ if (process.env.AUTH_METHOD === "Token") {
     // get the authentication token from local storage if it exists
     const token = localStorage.getItem("token")
     // return the headers to the context so httpLink can read them
+    console.log("token is")
+    console.log(token)
     return {
       headers: {
         ...headers,

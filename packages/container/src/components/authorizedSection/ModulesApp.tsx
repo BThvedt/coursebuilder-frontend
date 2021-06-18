@@ -34,7 +34,7 @@ const ModulesApp: React.FC<IProps> = ({ siteUser }) => {
     history.listen(onParentNavigate)
   }, [])
 
-  return <div ref={ref} />
+  return <div style={{ width: "100%" }} ref={ref} />
 }
 
 export default ModulesApp

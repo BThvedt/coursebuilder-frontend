@@ -76,8 +76,8 @@ const Signin: FC<IProps> = ({ onSignIn }) => {
       setLoginErrors([])
 
       // The logic of whether it's a token or a cookie happen in "Container"
-      // console.log("RESULT IS sdfgsdfgsdgfsdfgsdfgsdf")
-      // console.log(result)
+      console.log("RESULT IS sdfgsdfgsdgfsdfgsdfgsdf")
+      console.log(result)
 
       onSignIn(result)
     },
