@@ -39,15 +39,13 @@ const App: FC<IProps> = ({ history, siteUser }) => {
     setBodyClickCounter(bodyClickCounter + 1)
   }
 
-  // hmmm, in the future, might not want to pass in the user from the container. Might just want to get everything from cookie (or token) in each frontend
-  // single source of truth and all that. For example... the default user on a live site might (quite often in fact) still be "default" (object of empty strings as initially specified in the container)
-  // therefore, a useEffect here is needed .. will know better next time
   useEffect(() => {
     if (siteUser?.id) {
-      console.log(
-        "IN modules, useffect: site user exists - but it might not be loaddeddexdddd it might be the DEFAULT OBJECT AHAHHAahahaha ahah I THOUGHT IT WAS SUPPOSED TO BE CACHED"
-      )
-      console.log(siteUser)
+      // hmmm, in the future, might not want to pass in the user from the container. Might just want to get everything from cookie (or token) in each frontend
+      // single source of truth and all that.
+      // For example...the default user on a live site might(quite often in fact) still be "default" (object of empty strings as initially specified in the container)
+      // of course this didn't show up until I got everything online
+      // anyway. Siteuser may or may not exist, (if not, it's just a default object, with an empty string id) so if not just get it from the cached query in the "else"
       setUser(siteUser)
     } else {
       ;(async () => {
@@ -59,12 +57,10 @@ const App: FC<IProps> = ({ history, siteUser }) => {
           }
         })
 
-        console.log("IN modules, useffect: user is")
-        console.log(user)
         setUser(user)
       })()
     }
-  }, [siteUser])
+  }, [])
 
   return (
     <StylesProvider generateClassName={generateClassName} injectFirst>
