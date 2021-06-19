@@ -18,3 +18,9 @@ body {
   background: #fafafa;
   margin: 0;
 }
+// list items in selects are all messed up! For some reason the display is being overridden
+// hopefully this fixes that ...
+.MuiPaper-root ul[role="listbox"] li {
+  display: flex;
+  padding: 6px 16px;
+}
