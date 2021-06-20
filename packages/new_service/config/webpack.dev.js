@@ -27,7 +27,9 @@ const devConfig = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new Dotenv()
+    new Dotenv({
+      path: "./config/env/dev.env"
+    })
   ]
 }
 

@@ -25,7 +25,9 @@ const devConfig = {
       },
       shared: packageJson.dependencies
     }),
-    new Dotenv()
+    new Dotenv({
+      path: "./config/env/dev.env"
+    })
   ]
 }
 

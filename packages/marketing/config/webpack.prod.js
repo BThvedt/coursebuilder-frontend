@@ -19,7 +19,9 @@ const prodConfig = {
       },
       shared: packageJson.dependencies
     }),
-    new Dotenv()
+    new Dotenv({
+      path: "./config/env/prod.env"
+    })
   ]
 }
 

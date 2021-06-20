@@ -11,9 +11,9 @@ import { setContext } from "apollo-link-context"
 let credentials = "same-origin"
 // important for cookies, but I actually don't think it comes up. We're only using cookies when:
 // both front and back end are on localhost or both front and back end are live. Either way, should be the same domain
-if (process.env.DIFFERENT_FRONTEND_DOMAIN === "true") {
-  credentials = "include"
-}
+// if (process.env.DIFFERENT_FRONTEND_DOMAIN === "true") {
+//   credentials = "include"
+// }
 
 // for the memory cache
 const typePolicies: TypedTypePolicies = {
@@ -24,7 +24,7 @@ const typePolicies: TypedTypePolicies = {
 }
 
 const httpLink = createHttpLink({
-  uri: process.env.LOCAL_ENDPOINT,
+  uri: process.env.AUTH_ENDPOINT,
   credentials
 })
 
