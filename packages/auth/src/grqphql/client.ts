@@ -19,6 +19,8 @@ console.log("ENV VARS AR")
 console.log(process.env)
 console.log(process.env.AUTH_ENDPOINT)
 
+credentials = "include" // could this really be it????
+
 // for the memory cache
 const typePolicies: TypedTypePolicies = {
   // Keys in this object will be validated against the typed on your schema
