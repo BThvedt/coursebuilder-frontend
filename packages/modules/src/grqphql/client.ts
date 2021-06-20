@@ -16,6 +16,8 @@ let credentials = "same-origin"
 //   credentials = "include"
 // }
 
+credentials = "include" // could this really be it????
+
 // for the memory cache
 const typePolicies: TypedTypePolicies = {
   // Keys in this object will be validated against the typed on your schema
@@ -29,9 +31,11 @@ const authHttpLink = createHttpLink({
   credentials
 })
 
+console.log("ENVIRONMENT VARIABLES ARE (in modules)::")
 console.log(process.env)
 console.log(process.env.AUTH_ENDPOINT)
 console.log(process.env.MODULES_ENDPOINT)
+console.log("EVERYTHING LOOKING OK???")
 
 let linkForAuth
 
