@@ -29,6 +29,10 @@ const authHttpLink = createHttpLink({
   credentials
 })
 
+console.log(process.env)
+console.log(process.env.AUTH_ENDPOINT)
+console.log(process.env.MODULES_ENDPOINT)
+
 let linkForAuth
 
 if (process.env.AUTH_METHOD === "Token") {
